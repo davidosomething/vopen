@@ -1,0 +1,86 @@
+#!/usr/bin/env bash
+
+# vopen
+#
+# Automatically determine whether to use vim or gvim and use a single instance
+# Git commit messages will use a separate vim server called GIT
+#
+# Copyright (c) 2015 David O'Trakoun <me@davidosomething.com>
+#
+
+_vopen() {
+  local executable
+  local use_server
+  local has_server
+  local server
+  local servername
+  local args
+  local files
+
+  # which executable -----------------------------------------------------------
+  executable="vim"
+  servername="VIM"
+  use_server=true
+  server=""
+
+  if [[ -n "$DISPLAY" ]] || [[ "$DOTFILES_OS" == "Darwin" ]]; then
+    executable="gvim"
+    servername="GVIM"
+  fi
+
+  # In SSH
+  if [[ -n "$SSH_CONNECTION" ]]; then
+    use_server=false
+  fi
+
+  # Linux without X11
+  if [[ "$DOTFILES_OS" == "Linux" ]] && [[ -z "$DISPLAY" ]]; then
+    use_server=false
+  fi
+
+  # arg parsing ----------------------------------------------------------------
+
+  if [ $# -ne 0 ]; then
+    files=""
+    while [ "$1" != "" ]; do
+      if [[ "$1" == --* ]]; then
+        args="$args $1"
+      else
+        [[ "$1" == *"MERGE_MSG" ]] && servername="GIT"
+        [[ "$1" == *"COMMIT_EDITMSG" ]] && servername="GIT"
+        files="$files $1"
+      fi
+      shift
+    done
+  fi
+
+  # server use -----------------------------------------------------------------
+
+  if [ "$use_server" = true ]; then
+    has_server=$( { $executable --serverlist | grep -n1 $servername; } 2>&1 )
+    server="--servername $servername"
+
+    # reuse server
+    if [ "$has_server" != "" ]; then
+      if [ "$files" = "" ]; then
+        # shellcheck disable=SC2089
+        args="$args --remote-send \":call foreground()<CR>\""
+      else
+        args="$args --remote-silent"
+      fi
+
+    # new server
+    else
+      if [ "$files" = "" ]; then
+        args="$args $VOPEN_DEFAULT_COMMAND"
+      fi
+    fi
+  fi
+
+  # execute --------------------------------------------------------------------
+  # shellcheck disable=SC2086,SC2090
+  $executable $server $args $files
+}
+
+_vopen "${@}"
+
