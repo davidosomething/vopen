@@ -1,7 +1,6 @@
-# vopen
+# vopen v0.0.2
 
 > Edit a file using a single instance of vim/gvim/mvim
-
 
 | Name | Link |
 | ---- | ---- |
@@ -51,6 +50,7 @@ The format is any vim-compatible args (the plus sign means run this command).
 ## Changelog
 
 ```
+2015-05-05 - [fixed] Server is not used when --nofork arg is provided.
 2015-05-03 - published
 
 ```
