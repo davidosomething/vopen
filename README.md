@@ -1,4 +1,4 @@
-# vopen v0.0.3
+# vopen v0.0.4
 
 > Edit a file using a single instance of vim/gvim/mvim
 
@@ -50,6 +50,7 @@ The format is any vim-compatible args (the plus sign means run this command).
 ## Changelog
 
 ```
+2015-05-09 - [fixed] use `$OSTYPE` instead of my shell var
 2015-05-08 - [added] --servername flag will override servername correctly.
 2015-05-05 - [fixed] Server is not used when --nofork arg is provided.
 2015-05-03 - published

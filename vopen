@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# vopen v0.0.3
+# vopen v0.0.4
 #
 # Automatically determine whether to use vim or gvim and use a single instance
 # Git commit messages will use a separate vim server called GIT
@@ -23,18 +23,16 @@ _vopen() {
   use_server=true
   server=""
 
-  if [[ -n "$DISPLAY" ]] || [[ "$DOTFILES_OS" == "Darwin" ]]; then
+  # Has framebuffer or is OSX
+  if [[ -n "$DISPLAY" ]] || [[ $OSTYPE == darwin* ]]; then
     executable="gvim"
     servername="GVIM"
+  else
+    use_server=false
   fi
 
   # In SSH
   if [[ -n "$SSH_CONNECTION" ]]; then
-    use_server=false
-  fi
-
-  # Linux without X11
-  if [[ "$DOTFILES_OS" == "Linux" ]] && [[ -z "$DISPLAY" ]]; then
     use_server=false
   fi
 
