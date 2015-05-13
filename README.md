@@ -1,4 +1,4 @@
-# vopen v0.0.4
+# vopen v0.0.5
 
 > Edit a file using a single instance of vim/gvim/mvim
 
@@ -46,6 +46,22 @@ export VOPEN_DEFAULT_COMMAND="+VimFilerCurrentDir"
 ```
 
 The format is any vim-compatible args (the plus sign means run this command).
+
+### Use alternate vim/neovim
+
+`vopen` supports two environment variables for specifying what command to run
+for the editor and gui editors.
+
+- `VOPEN_EDITOR` defaults to `vim`
+- `VOPEN_VISUAL` defaults to gvim.
+
+Here is an example using NeoVim as the terminal editor and `coolwanglu/neovim-e`
+as the gui editor:
+
+```
+export VOPEN_EDITOR="nvim"
+export VOPEN_VISUAL="/Applications/Electron.app/Contents/MacOS/Electron ~/src/neovim-e"
+```
 
 ## Changelog
 
