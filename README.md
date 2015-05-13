@@ -61,11 +61,22 @@ as the gui editor:
 ```
 export VOPEN_EDITOR="nvim"
 export VOPEN_VISUAL="/Applications/Electron.app/Contents/MacOS/Electron ~/src/neovim-e"
+export VOPEN_USE_SERVER=false
+```
+
+### Never use server
+
+If you're using a version of vim (e.g. neovim-e) that does not support servers
+but you still want to use `vopen` for some reason, you can disable servers:
+
+```
+export VOPEN_USE_SERVER=false
 ```
 
 ## Changelog
 
 ```
+2015-05-13 - [added] env vars for VOPEN_VISUAL, VOPEN_EDITOR, VOPEN_USE_SERVER
 2015-05-09 - [fixed] use `$OSTYPE` instead of my shell var
 2015-05-08 - [added] --servername flag will override servername correctly.
 2015-05-05 - [fixed] Server is not used when --nofork arg is provided.

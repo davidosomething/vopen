@@ -11,7 +11,7 @@
 _vopen() {
   local gui=false
   local executable
-  local use_server=true
+  local use_server="false"
   local has_server=false
   local server=""
   local servername="VIM"
@@ -26,22 +26,8 @@ _vopen() {
   if [[ -n "$DISPLAY" ]] || [[ $OSTYPE == darwin* ]]; then
     gui=true
     servername="GVIM"
-  else
-    use_server=false
+    use_server=${VOPEN_ALLOW_SERVER:-true}
   fi
-
-  # In SSH
-  if [[ -n "$SSH_CONNECTION" ]]; then
-    use_server=false
-  fi
-
-  # Linux without X11
-  if [[ "$DOTFILES_OS" == "Linux" ]] && [[ -z "$DISPLAY" ]]; then
-    use_server=false
-  fi
-
-    echo "$_vopen_editor"
-    echo "$_vopen_visual"
 
   # Override editor if env var provides, otherwise use vim/gvim
   if [ "$gui" = true ]; then
@@ -110,7 +96,7 @@ _vopen() {
 
   # execute --------------------------------------------------------------------
   # shellcheck disable=SC2086,SC2090
-  $executable $server $args $files
+  eval $executable $server $args $files
 }
 
 _vopen "${@}"
