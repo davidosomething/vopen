@@ -1,4 +1,4 @@
-# vopen v0.0.5
+# vopen v0.0.6
 
 > Edit a file using a single instance of vim/gvim/mvim
 
@@ -76,6 +76,7 @@ export VOPEN_USE_SERVER=false
 ## Changelog
 
 ```
+2015-09-22 - [fixed] quote file paths, files w/escaped spaces work now
 2015-05-13 - [added] env vars for VOPEN_VISUAL, VOPEN_EDITOR, VOPEN_USE_SERVER
 2015-05-09 - [fixed] use `$OSTYPE` instead of my shell var
 2015-05-08 - [added] --servername flag will override servername correctly.
