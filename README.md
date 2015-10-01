@@ -1,4 +1,4 @@
-# vopen v0.0.6
+# vopen v0.0.7
 
 > Edit a file using a single instance of vim/gvim/mvim
 
@@ -25,15 +25,11 @@ It takes all of vim's normal args if you provide any extra ones.
 
 ## Usage
 
-```
-vopen (args) (filenames/directories)
-```
+    vopen (args) (filenames/directories)
 
 Typically I alias "vopen" to "e".
 
-```
-alias e="vopen"
-```
+    alias e="vopen"
 
 ### Default command
 
@@ -41,9 +37,7 @@ You can start vim with a default command if no files/directories are provided
 using the `VOPEN_DEFAULT_COMMAND` global variable in your system. E.g. to
 start vimfiler:
 
-```
-export VOPEN_DEFAULT_COMMAND="+VimFilerCurrentDir"
-```
+    export VOPEN_DEFAULT_COMMAND="+VimFilerCurrentDir"
 
 The format is any vim-compatible args (the plus sign means run this command).
 
@@ -58,31 +52,31 @@ for the editor and gui editors.
 Here is an example using NeoVim as the terminal editor and `coolwanglu/neovim-e`
 as the gui editor:
 
-```
-export VOPEN_EDITOR="nvim"
-export VOPEN_VISUAL="/Applications/Electron.app/Contents/MacOS/Electron ~/src/neovim-e"
-export VOPEN_USE_SERVER=false
-```
+    export VOPEN_EDITOR="nvim"
+    export VOPEN_VISUAL="/Applications/Electron.app/Contents/MacOS/Electron ~/src/neovim-e"
+    export VOPEN_USE_SERVER=false
 
 ### Never use server
 
 If you're using a version of vim (e.g. neovim-e) that does not support servers
 but you still want to use `vopen` for some reason, you can disable servers:
 
-```
-export VOPEN_USE_SERVER=false
-```
+    export VOPEN_USE_SERVER=false
+
+There is also a commandline flag:
+
+    vopen --noserver myfile.txt
 
 ## Changelog
 
 ```
+2015-10-01 - [added] --noserver flag, cut v0.0.7
 2015-09-22 - [fixed] quote file paths, files w/escaped spaces work now
 2015-05-13 - [added] env vars for VOPEN_VISUAL, VOPEN_EDITOR, VOPEN_USE_SERVER
 2015-05-09 - [fixed] use `$OSTYPE` instead of my shell var
 2015-05-08 - [added] --servername flag will override servername correctly.
 2015-05-05 - [fixed] Server is not used when --nofork arg is provided.
 2015-05-03 - published
-
 ```
 
 Copyright (c) 2015 David O'Trakoun <me@davidosomething.com>
