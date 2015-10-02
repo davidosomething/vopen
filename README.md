@@ -1,4 +1,4 @@
-# vopen v0.0.7
+# vopen v0.0.8
 
 > Edit a file using a single instance of vim/gvim/mvim
 
@@ -22,6 +22,10 @@ It takes all of vim's normal args if you provide any extra ones.
 ## Installation
 
 - Add the `vopen` file somewhere in your path, e.g. `/usr/local/bin/`
+- Optionally add the `vopen-nofork` file somewhere in your global path (make
+  sure the root user/sudo has this in its path), e.g. `/usr/local/bin/`. This is
+  used for `$EDITOR` / `$SUDO_EDITOR`, and is compatible with `git commit`,
+  `visudo`, `vipw`, etc.
 
 ## Usage
 
@@ -30,6 +34,13 @@ It takes all of vim's normal args if you provide any extra ones.
 Typically I alias "vopen" to "e".
 
     alias e="vopen"
+
+Use the nofork version `vopen-nofork` for `$EDITOR` and `$VISUAL` if you plan
+on modifying your env (`.bashrc`/`.zshrc`/etc.).
+
+    export EDITOR="vopen-nofork"
+    export SUDO_EDITOR="vopen-nofork"
+    export VISUAL="vopen-nofork"
 
 ### Default command
 
@@ -69,14 +80,37 @@ There is also a commandline flag:
 
 ## Changelog
 
-```
-2015-10-01 - [added] --noserver flag, cut v0.0.7
-2015-09-22 - [fixed] quote file paths, files w/escaped spaces work now
-2015-05-13 - [added] env vars for VOPEN_VISUAL, VOPEN_EDITOR, VOPEN_USE_SERVER
-2015-05-09 - [fixed] use `$OSTYPE` instead of my shell var
-2015-05-08 - [added] --servername flag will override servername correctly.
-2015-05-05 - [fixed] Server is not used when --nofork arg is provided.
-2015-05-03 - published
-```
+### 2015-10-02
+
+- [changed] default servername is now suffixed with -VOPEN to distinguish from
+  --nofork runs
+
+### 2015-10-01
+
+- [added] --noserver flag, cut v0.0.7
+
+### 2015-09-22
+
+- [fixed] quote file paths, files w/escaped spaces work now
+
+### 2015-05-13
+
+- [added] env vars for VOPEN_VISUAL, VOPEN_EDITOR, VOPEN_USE_SERVER
+
+### 2015-05-09
+
+- [fixed] use `$OSTYPE` instead of my shell var
+
+### 2015-05-08
+
+- [added] --servername flag will override servername correctly.
+
+### 2015-05-05
+
+- [fixed] Server is not used when --nofork arg is provided.
+
+### 2015-05-03
+
+- published
 
 Copyright (c) 2015 David O'Trakoun <me@davidosomething.com>
