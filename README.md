@@ -1,9 +1,9 @@
-# vopen v0.0.8
+# vopen v0.0.9
 
 > Edit a file using a single instance of vim/gvim/mvim
 
-| Name | Link |
-| ---- | ---- |
+| Name          | Link           |
+| ------------- | -------------- |
 | Project Home: | [https://github.com/davidosomething/vopen](https://github.com/davidosomething/vopen)
 
 ## About
@@ -80,34 +80,39 @@ There is also a commandline flag:
 
 ## Changelog
 
+### 2015-10-15
+
+- CHANGED - detect when nvim is used and default to serverless since there is
+  no server mode
+
 ### 2015-10-02
 
-- [changed] default servername is now suffixed with -VOPEN to distinguish from
-  --nofork runs
+- CHANGED - default servername is now suffixed with -VOPEN to distinguish from
+  `--nofork` runs
 
 ### 2015-10-01
 
-- [added] --noserver flag, cut v0.0.7
+- ADDED - `--noserver` flag, cut v0.0.7
 
 ### 2015-09-22
 
-- [fixed] quote file paths, files w/escaped spaces work now
+- FIXED - quote file paths, files w/escaped spaces work now
 
 ### 2015-05-13
 
-- [added] env vars for VOPEN_VISUAL, VOPEN_EDITOR, VOPEN_USE_SERVER
+- ADDED - env vars for VOPEN_VISUAL, VOPEN_EDITOR, VOPEN_USE_SERVER
 
 ### 2015-05-09
 
-- [fixed] use `$OSTYPE` instead of my shell var
+- FIXED - use `$OSTYPE` instead of my shell var
 
 ### 2015-05-08
 
-- [added] --servername flag will override servername correctly.
+- ADDED - `--servername` flag will override servername correctly.
 
 ### 2015-05-05
 
-- [fixed] Server is not used when --nofork arg is provided.
+- FIXED - Server is not used when `--nofork` arg is provided.
 
 ### 2015-05-03
 
