@@ -1,4 +1,4 @@
-# vopen v0.0.10
+# vopen v0.1.0
 
 > Edit a file using a single instance of vim/gvim/mvim
 
@@ -82,6 +82,7 @@ There is also a commandline flag:
 
 ### 2015-10-15
 
+- CHANGED - remove bash error modes (v0.1.0)
 - CHANGED - no --nofork mode for nvim either (v0.0.10)
 - CHANGED - detect when nvim is used and default to serverless since there is
   no server mode (v0.0.9)
