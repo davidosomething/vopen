@@ -1,4 +1,4 @@
-# vopen v0.1.0
+# vopen v0.1.1
 
 > Edit a file using a single instance of vim/gvim/mvim
 
@@ -79,6 +79,10 @@ There is also a commandline flag:
     vopen --noserver myfile.txt
 
 ## Changelog
+
+### 2015-12-03
+
+- FIXED - quoting
 
 ### 2015-10-15
 
