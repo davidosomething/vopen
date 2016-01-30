@@ -1,4 +1,4 @@
-# vopen v1.0.0
+# vopen v1.0.1
 
 > Edit a file using a single instance of vim/gvim/mvim
 
