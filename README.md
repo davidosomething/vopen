@@ -1,4 +1,4 @@
-# vopen v0.1.1
+# vopen v1.0.0
 
 > Edit a file using a single instance of vim/gvim/mvim
 
@@ -59,12 +59,15 @@ for the editor and gui editors.
 
 - `VOPEN_EDITOR` defaults to `vim`
 - `VOPEN_VISUAL` defaults to gvim.
+- `VOPEN_USE_GUI` defaults to true if you have a gui-capable display (x11/osx)
+- `VOPEN_USE_SERVER` defaults to true, use to disable server altogether
 
 Here is an example using NeoVim as the terminal editor and `coolwanglu/neovim-e`
 as the gui editor:
 
     export VOPEN_EDITOR="nvim"
     export VOPEN_VISUAL="/Applications/Electron.app/Contents/MacOS/Electron ~/src/neovim-e"
+    export VOPEN_USE_GUI=false
     export VOPEN_USE_SERVER=false
 
 ### Never use server
@@ -79,6 +82,11 @@ There is also a commandline flag:
     vopen --noserver myfile.txt
 
 ## Changelog
+
+### 2016-01-29
+
+- ADDED - VOPEN_USE_GUI if you want to never use the gui
+- FIXED - better logic to determine what editor mode to use
 
 ### 2015-12-03
 
