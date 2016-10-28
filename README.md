@@ -1,4 +1,4 @@
-# vopen v1.0.1
+# vopen
 
 > Edit a file using a single instance of vim/gvim/mvim
 
@@ -29,18 +29,24 @@ It takes all of vim's normal args if you provide any extra ones.
 
 ## Usage
 
-    vopen (args) (filenames/directories)
+```bash
+vopen (args) (filenames/directories)
+```
 
 Typically I alias "vopen" to "e".
 
-    alias e="vopen"
+```bash
+alias e="vopen"
+```
 
 Use the nofork version `vopen-nofork` for `$EDITOR` and `$VISUAL` if you plan
 on modifying your env (`.bashrc`/`.zshrc`/etc.).
 
-    export EDITOR="vopen-nofork"
-    export SUDO_EDITOR="vopen-nofork"
-    export VISUAL="vopen-nofork"
+```bash
+export EDITOR="vopen-nofork"
+export SUDO_EDITOR="vopen-nofork"
+export VISUAL="vopen-nofork"
+```
 
 ### Default command
 
@@ -48,7 +54,9 @@ You can start vim with a default command if no files/directories are provided
 using the `VOPEN_DEFAULT_COMMAND` global variable in your system. E.g. to
 start vimfiler:
 
-    export VOPEN_DEFAULT_COMMAND="+VimFilerCurrentDir"
+```bash
+export VOPEN_DEFAULT_COMMAND="+VimFilerCurrentDir"
+```
 
 The format is any vim-compatible args (the plus sign means run this command).
 
@@ -57,31 +65,54 @@ The format is any vim-compatible args (the plus sign means run this command).
 `vopen` supports two environment variables for specifying what command to run
 for the editor and gui editors.
 
-- `VOPEN_EDITOR` defaults to `vim`
-- `VOPEN_VISUAL` defaults to gvim.
-- `VOPEN_USE_GUI` defaults to true if you have a gui-capable display (x11/osx)
+- `VOPEN_EDITOR` defaults to `vim`. I.e., for `neovim-remote` set to `nvr`.
+- `VOPEN_VISUAL` defaults to `gvim`. I.e., for `neovim-remote` set to `nvr`.
+- `VOPEN_USE_GUI` defaults to true if you have a gui-capable display
+  (x11/osx).
 - `VOPEN_USE_SERVER` defaults to true, use to disable server altogether
+- `VOPEN_SERVERNAME` defaults to `VOPEN` to use a single instance called
+  `VOPEN`. I.e., for `neovim-remote` set to `$NVIM_LISTEN_ADDRESS`.
 
 Here is an example using NeoVim as the terminal editor and `coolwanglu/neovim-e`
 as the gui editor:
 
-    export VOPEN_EDITOR="nvim"
-    export VOPEN_VISUAL="/Applications/Electron.app/Contents/MacOS/Electron ~/src/neovim-e"
-    export VOPEN_USE_GUI=false
-    export VOPEN_USE_SERVER=false
+```bash
+export VOPEN_EDITOR="nvim"
+export VOPEN_VISUAL="/Applications/Electron.app/Contents/MacOS/Electron ~/src/neovim-e"
+export VOPEN_USE_GUI=false
+export VOPEN_USE_SERVER=false
+```
+
+Here is an example using [neovim-remote](https://github.com/mhinz/neovim-remote):
+
+```bash
+export NVIM_LISTEN_ADDRESS=/tmp/nvimsocket
+export VOPEN_SERVERNAME="$NVIM_LISTEN_ADDRESS"
+export VOPEN_EDITOR="nvr"
+export VOPEN_VISUAL="nvr"
+```
 
 ### Never use server
 
 If you're using a version of vim (e.g. neovim-e) that does not support servers
 but you still want to use `vopen` for some reason, you can disable servers:
 
-    export VOPEN_USE_SERVER=false
+```bash
+export VOPEN_USE_SERVER=false
+```
 
 There is also a commandline flag:
 
-    vopen --noserver myfile.txt
+```bash
+vopen --noserver myfile.txt
+```
 
 ## Changelog
+
+### 2016-10-28
+
+- ADDED - neovim-remote support, cut 1.0.2
+- ADDED - learned VOPEN_SERVERNAME env option
 
 ### 2016-01-29
 

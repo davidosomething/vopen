@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# vopen v1.0.1
+# vopen v1.0.2
 #
 # Automatically determine whether to use vim or gvim and use a single instance
 # Git commit messages will use a separate vim server called GIT
@@ -8,7 +8,7 @@
 # Copyright (c) 2015 David O'Trakoun <me@davidosomething.com>
 #
 
-_vopen() {
+__vopen() {
   local _vopen_editor="${VOPEN_EDITOR:-vim}"
   local _vopen_visual="${VOPEN_VISUAL:-gvim}"
   local has_gui=false
@@ -17,7 +17,7 @@ _vopen() {
   local use_server="${VOPEN_USE_SERVER:-true}"
   local server_exists=''
   local has_fork=true
-  local servername="VOPEN"
+  local servername="${VOPEN_SERVERNAME:-VOPEN}"
 
   local executable
   local args
@@ -45,7 +45,7 @@ _vopen() {
     executable="$_vopen_editor"
   fi
 
-  if [[ "$executable" = *"vim" ]]; then
+  if [[ "$executable" = *"vim" ]] || [[ "$executable" = "nvr" ]]; then
     has_server=true
   fi
 
@@ -124,5 +124,5 @@ _vopen() {
   eval "$executable $server_arg $args $files"
 }
 
-_vopen "$@"
+__vopen "$@"
 
