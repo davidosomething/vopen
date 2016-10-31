@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# vopen v1.0.2
+# vopen v1.1.0
 #
 # Automatically determine whether to use vim or gvim and use a single instance
 # Git commit messages will use a separate vim server called GIT
@@ -9,87 +9,95 @@
 #
 
 __vopen() {
-  local _vopen_editor="${VOPEN_EDITOR:-vim}"
-  local _vopen_visual="${VOPEN_VISUAL:-gvim}"
-  local has_gui=false
-  local use_gui=true
-  local has_server=false
-  local use_server="${VOPEN_USE_SERVER:-true}"
-  local server_exists=''
-  local has_fork=true
-  local servername="${VOPEN_SERVERNAME:-VOPEN}"
+  local _editor="${VOPEN_EDITOR:-vim}"
+  local _visual="${VOPEN_VISUAL:-gvim}"
+  local _default_command="${VOPEN_DEFAULT_COMMAND}"
+  local _reuse_command="${VOPEN_REUSE_COMMAND:--remote-send \":call foreground()<CR>\"}"
+  local _has_gui=false
+  local _use_gui=true
+  local _has_server=false
+  local _use_server="${VOPEN_USE_SERVER:-true}"
+  local _server_exists=''
+  local _has_fork=true
+  local _servername="${VOPEN_SERVERNAME:-VOPEN}"
 
-  local executable
-  local args
-  local server_arg=""
-  local files
+  local _exe
+  local _args
+  local _server_arg=""
+  local _files
 
   # which executable -----------------------------------------------------------
 
-  if command -v "$_vopen_visual" >/dev/null 2>&1; then
-    has_gui=true
+  if command -v "$_visual" >/dev/null 2>&1; then
+    _has_gui=true
   fi
 
   if [ -z "$DISPLAY" ] || [[ $OSTYPE == darwin* ]]; then
-    has_gui=false
+    _has_gui=false
   fi
 
-  if [ "$has_gui" = "false" ] || [ "$VOPEN_USE_GUI" = "false" ]; then
-    use_gui=false
+  if [ "$_has_gui" = "false" ] || [ "$VOPEN_USE_GUI" = "false" ]; then
+    _use_gui=false
   fi
 
   # Override editor if env var provides, otherwise use vim/gvim
-  if [ "$use_gui" = true ] && [ "$has_gui" = true ]; then
-    executable="$_vopen_visual"
+  if [ "$_use_gui" = true ] && [ "$_has_gui" = true ]; then
+    _exe="$_visual"
   else
-    executable="$_vopen_editor"
+    _exe="$_editor"
   fi
 
-  if [[ "$executable" = *"vim" ]] || [[ "$executable" = "nvr" ]]; then
-    has_server=true
+  if [[ "$_exe" = *"vim" ]] || [[ "$_exe" = "nvr" ]]; then
+    _has_server=true
   fi
 
-  if [[ "$executable" == *"nvim"* ]] || [ "$executable" = "nyaovim" ] ; then
-    has_server=false
-    use_server=false
-    has_fork=false
+  if [[ "$_exe" == *"nvim"* ]] || [ "$_exe" = "nyaovim" ] ; then
+    _has_server=false
+    _use_server=false
+    _has_fork=false
   fi
 
-  # arg parsing ----------------------------------------------------------------
-  args=""
+  # --------------------------------------------------------------------------
+  # arg parsing
+  # --------------------------------------------------------------------------
+
+  _args=""
   while [[ "$#" -gt 0 ]] && [[ ."$1" = .--* ]]; do
     case "$1" in
       "--")                   # file separator
         break                 # break out of while loop, continue to files
         ;;
       "--nofork")             # never use server if nofork
-        use_server=false
-        if [ "$has_fork" = "true" ]; then
-          args="$args --nofork"
+        _use_server=false
+        if [ "$_has_fork" = "true" ]; then
+          _args="$_args --nofork"
         fi
         ;;
       "--noserver")           # don't use server at all, useful for sudoeditor
-        use_server=false
+        _use_server=false
         ;;
       "--servername")         # custom servername
         shift                 # get next arg
-        servername="$1"
+        _servername="$1"
         ;;
       "--"*)                  # take any other args as they are
-        args="$args $1"
+        _args="$_args $1"
         ;;
     esac
     shift
   done
 
-  # file parsing ---------------------------------------------------------------
-  # If there are still args after the above...
-  files=""
+  # --------------------------------------------------------------------------
+  # file parsing
+  # If there are still _args after the above...
+  # --------------------------------------------------------------------------
+
+  _files=""
   while [[ "$#" -gt 0 ]]; do
-    files="$files \"$1\""
+    _files="$_files \"$1\""
     case "$1" in
       *"MERGE_MSG"|*"COMMIT_EDITMSG")
-        use_server=false
+        _use_server=false
         ;;
       "/etc/sudoers")
         echo "$0"
@@ -98,30 +106,41 @@ __vopen() {
     shift
   done
 
-  # server use -----------------------------------------------------------------
+  # --------------------------------------------------------------------------
+  # existing server
+  # --------------------------------------------------------------------------
 
-  if [ -n "$servername" ] && [ "$has_server" = true ] && [ "$use_server" = true ]; then
-    server_exists=$( $executable --serverlist | grep -n1 "$servername" 2>/dev/null )
-    server_arg="--servername $servername"
+  if [ -n "$_servername" ] \
+    && [ "$_has_server" = true ] \
+    && [ "$_use_server" = true ]; then
+    _server_exists=$( $_exe --serverlist | grep -n1 "$_servername" 2>/dev/null )
+    _server_arg="--servername $_servername"
 
     # reuse server
-    if [ "$server_exists" != "" ]; then
-      if [ "$files" = "" ]; then
-        args="$args --remote-send \":call foreground()<CR>\""
+    if [ "$_server_exists" != "" ]; then
+      if [ "$_files" = "" ]; then
+        _args="$_args $_reuse_command"
       else
-        args="$args --remote-silent"
+        _args="$_args --remote-silent"
       fi
 
     # new server
     else
-      if [ "$files" = "" ]; then
-        args="$args $VOPEN_DEFAULT_COMMAND"
+      if [ "$_files" = "" ]; then
+        _args="$_args $_default_command"
       fi
     fi
   fi
 
-  # execute --------------------------------------------------------------------
-  eval "$executable $server_arg $args $files"
+  # --------------------------------------------------------------------------
+  # execute
+  # --------------------------------------------------------------------------
+
+  if [ -n "$VOPEN_DEBUG" ]; then
+    echo "$_exe $_server_arg $_args $_files"
+  else
+    eval "$_exe $_server_arg $_args $_files"
+  fi
 }
 
 __vopen "$@"
