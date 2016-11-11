@@ -144,6 +144,11 @@ VOPEN_DEBUG=1 vopen
 
 ## Changelog
 
+### 2016-11-11
+
+- CHANGED - check for `--version` flag and pass through directly to editor
+  (directly to nvim if using nvr)
+
 ### 2016-10-31
 
 - ADDED - learned VOPEN_REUSE_COMMAND env option
