@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 
-# vopen v1.1.0
+# vopen v1.2.0
 #
 # Automatically determine whether to use vim or gvim and use a single instance
 # Git commit messages will use a separate vim server called GIT
 #
-# Copyright (c) 2015 David O'Trakoun <me@davidosomething.com>
+# Copyright (c) 2016 David O'Trakoun <me@davidosomething.com>
 #
 
 __vopen() {
@@ -66,6 +66,11 @@ __vopen() {
     case "$1" in
       "--")                   # file separator
         break                 # break out of while loop, continue to files
+        ;;
+      "--version")
+        # vim ignores all else if version is specified, only need to send that
+        eval "$_exe --version"
+        break # known dead code path
         ;;
       "--nofork")             # never use server if nofork
         _use_server=false
