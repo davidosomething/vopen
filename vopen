@@ -72,6 +72,7 @@ __vopen() {
         [[ "$_exe" = "nvr" ]] && _exe="nvim"
         # vim ignores all else if version is specified, only need to send that
         eval "$_exe --version"
+        exit
         break # known dead code path
         ;;
       "--nofork")             # never use server if nofork
