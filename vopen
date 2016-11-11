@@ -68,6 +68,8 @@ __vopen() {
         break                 # break out of while loop, continue to files
         ;;
       "--version")
+        # pass through nvr to nvim
+        [[ "$_exe" = "nvr" ]] && _exe="nvim"
         # vim ignores all else if version is specified, only need to send that
         eval "$_exe --version"
         break # known dead code path
