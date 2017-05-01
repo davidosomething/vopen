@@ -118,7 +118,7 @@ __vopen() {
   # existing server
   # --------------------------------------------------------------------------
 
-  if [ -n "$_servername" ] \
+  if [ "$_servername" ] \
     && [ "$_has_server" = true ] \
     && [ "$_use_server" = true ]; then
 
@@ -128,7 +128,7 @@ __vopen() {
     _server_arg="--servername $_servername"
 
     # reuse server if existing server
-    if [ -n "$_existing_server" ]; then
+    if [ "$_existing_server" != "" ]; then
       if [ "$_files" = "" ]; then
         _args="$_args $_reuse_command"
       else
@@ -148,6 +148,14 @@ __vopen() {
   # --------------------------------------------------------------------------
 
   if [ -n "$VOPEN_DEBUG" ]; then
+    echo "_servername:      ${_servername}"
+    echo "_server_arg:      ${_server_arg}"
+    echo "_reuse_command:   ${_reuse_command}"
+    echo "_existing_server: ${_existing_server}"
+    echo "_default_command: ${_default_command}"
+    echo "_exe:             ${_exe}"
+    echo "_args:            ${_args}"
+    echo "_files:           ${_files}"
     echo "$_exe $_server_arg $_args $_files"
   else
     eval "$_exe $_server_arg $_args $_files"
