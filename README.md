@@ -8,7 +8,7 @@
 
 ## About
 
-This uses Vim's server capability to use only a single instance of gVim.
+This uses Vim's server capability to use a single instance of Vim.
 It also intelligently determines when to use that capability:
 
 - If on Linux with an X Server, will use `gvim`
@@ -17,7 +17,7 @@ It also intelligently determines when to use that capability:
 - If in an SSH session or linux with no X11 it will use terminal Vim with no
   server.
 
-It takes all of Vim's normal args if you provide any extra ones.
+It takes of Vim's normal args if you provide any extra ones.
 
 ## Installation
 
@@ -50,9 +50,8 @@ export VISUAL="vopen-nofork"
 
 ### Default command
 
-You can start Vim with a default command if no files/directories are provided
-using the `VOPEN_DEFAULT_COMMAND` global variable in your system. E.g. to
-start vimfiler:
+You can start Vim with a default command using the `VOPEN_DEFAULT_COMMAND`
+global variable in your system. E.g. to start vimfiler:
 
 ```bash
 export VOPEN_DEFAULT_COMMAND="+VimFilerCurrentDir"
@@ -63,7 +62,11 @@ The format is any Vim-compatible args (the plus sign means run this command).
 For [neovim-remote] I recommend the following:
 
 ```bash
-export VOPEN_DEFAULT_COMMAND="+enew"
+export VOPEN_SERVERNAME="$NVIM_LISTEN_ADDRESS"
+export VOPEN_DEFAULT_COMMAND="--remote-silent +enew"
+export VOPEN_REUSE_COMMAND="--remote-silent"
+export VOPEN_EDITOR="nvr"
+export VOPEN_VISUAL="nvr"
 ```
 
 ### Reuse command
@@ -86,8 +89,8 @@ which does a silent no-op and will suppress [neovim-remote] messages.
 
 ### Use alternate vim/Neovim
 
-`vopen` supports several environment variables for specifying what command to
-run for the editor and gui editors.
+`vopen` supports environment variables for specifying what command to run for
+the editor and gui editors.
 
 - `VOPEN_EDITOR` defaults to `vim`. I.e., for [neovim-remote] set to `nvr`.
 - `VOPEN_VISUAL` defaults to `gvim`. I.e., for [neovim-remote] set to `nvr`.
@@ -172,7 +175,7 @@ VOPEN_DEBUG=1 vopen
 
 - CHANGED - remove bash error modes (v0.1.0)
 - CHANGED - no --nofork mode for nvim either (v0.0.10)
-- CHANGED - detect when nvim is used and default to serverless since there is
+- CHANGED - detect nvim and default to serverless since there is
   no server mode (v0.0.9)
 
 ### 2015-10-02
@@ -198,16 +201,14 @@ VOPEN_DEBUG=1 vopen
 
 ### 2015-05-08
 
-- ADDED - `--servername` flag will override servername correctly.
+- ADDED - `--servername` flag will properly override servername.
 
 ### 2015-05-05
 
-- FIXED - Server is not used when `--nofork` arg is provided.
+- FIXED - Server is not used when `--nofork` arg is present.
 
 ### 2015-05-03
 
 - published
-
-Copyright (c) 2015 David O'Trakoun <me@davidosomething.com>
 
 [neovim-remote]: https://github.com/mhinz/neovim-remote

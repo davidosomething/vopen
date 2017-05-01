@@ -139,6 +139,8 @@ __vopen() {
     else
       if [ "$_files" = "" ]; then
         _args="$_args $_default_command"
+      elif [[ "$_exe" = "nvr" ]]; then
+        _args="$_args $_reuse_command"
       fi
     fi
   fi
