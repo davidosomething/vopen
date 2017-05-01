@@ -17,7 +17,7 @@ __vopen() {
   local _use_gui=true
   local _has_server=false
   local _use_server="${VOPEN_USE_SERVER:-true}"
-  local _server_exists=''
+  local _existing_server=''
   local _has_fork=true
   local _servername="${VOPEN_SERVERNAME:-VOPEN}"
 
@@ -121,11 +121,14 @@ __vopen() {
   if [ -n "$_servername" ] \
     && [ "$_has_server" = true ] \
     && [ "$_use_server" = true ]; then
-    _server_exists=$( $_exe --serverlist | grep -n1 "$_servername" 2>/dev/null )
+
+    # always exists for nvr if you have NVIM_LISTEN_ADDRESS
+    _existing_server=$( $_exe --serverlist | grep "$_servername" 2>/dev/null )
+
     _server_arg="--servername $_servername"
 
-    # reuse server
-    if [ "$_server_exists" != "" ]; then
+    # reuse server if existing server
+    if [ -n "$_existing_server" ]; then
       if [ "$_files" = "" ]; then
         _args="$_args $_reuse_command"
       else
