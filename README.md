@@ -24,7 +24,7 @@ It takes of Vim's normal args if you provide any extra ones.
 - Add the `vopen` file somewhere in your path, e.g. `/usr/local/bin/`
 - Optionally add the `vopen-nofork` file somewhere in your global path (make
   sure the root user/sudo has this in its path), e.g. `/usr/local/bin/`. This is
-  used for `$EDITOR` / `$SUDO_EDITOR`, and is compatible with `git commit`,
+  for `$EDITOR` / `$SUDO_EDITOR`, and is compatible with `git commit`,
   `visudo`, `vipw`, etc.
 
 ## Usage
