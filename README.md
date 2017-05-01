@@ -147,6 +147,10 @@ VOPEN_DEBUG=1 vopen
 
 ## Changelog
 
+### 2017-05-01
+
+- FIXED - neovim-remote 1.6.0 fixes for silent opening
+
 ### 2016-11-11
 
 - CHANGED - check for `--version` flag and pass through directly to editor
