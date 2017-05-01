@@ -149,7 +149,7 @@ VOPEN_DEBUG=1 vopen
 
 ### 2017-05-01
 
-- FIXED - neovim-remote 1.6.0 fixes for silent opening
+- FIXED - neovim-remote 1.6.0 fixes for silent opening; cut 1.3.0
 
 ### 2016-11-11
 
